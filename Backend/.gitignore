@@ -19,3 +19,6 @@ dist-ssr/
 .vscode/
 .idea/
 .DS_Store
+
+serviceAccountKey.json
+*serviceAccount*.json
