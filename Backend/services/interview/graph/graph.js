@@ -25,7 +25,7 @@ function feedbackRouter(state) {
         return "summaryAgent";
     }
 
-    return "interviewAgent";
+    return END;
 }
 
 const graph = new StateGraph(InterviewState)
@@ -44,7 +44,7 @@ const graph = new StateGraph(InterviewState)
 
     .addConditionalEdges("feedbackAgent", feedbackRouter, {
         summaryAgent: "summaryAgent",
-        interviewAgent: "interviewAgent"
+        [END]: END
     })
 
     .addEdge("summaryAgent", END);
