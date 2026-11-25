@@ -17,6 +17,6 @@ AI-powered career platform for freshers: build resumes, score them, practice moc
 - **DevOps:** Docker, Docker Compose
 
 
-##Author
+## Author
 
 Dhrub Chaurasia .
