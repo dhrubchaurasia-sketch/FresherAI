@@ -7,12 +7,12 @@ export const GoogleAuth = async (req, res) => {
   try {
     const { token } = req.body;
     const decoded = await getAuth(app).verifyIdToken(token);
-    console.log("GOOGLE EMAIL:", decoded.email);
-    console.log("FIREBASE UID:", decoded.uid);
+    // console.log("GOOGLE EMAIL:", decoded.email);
+    // console.log("FIREBASE UID:", decoded.uid);
 
     let user = await User.findOne({ firebaseUid: decoded.uid });
 
-    console.log("EXISTING USER:", user);
+    // console.log("EXISTING USER:", user);
 
     // let user = await User.findOne({ firebaseUid: decoded.uid });
     if (!user) {
@@ -39,8 +39,8 @@ export const GoogleAuth = async (req, res) => {
     ); // Set session in Redis with 7 days expiration
     res.cookie("session", sessionId, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({ message: "Authentication successful", user });
@@ -58,8 +58,8 @@ export const Logout = async (req, res) => {
     }
     res.clearCookie("session", {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
     });
     res.status(200).json({ success: true, message: "Logout successful" });
   } catch (error) {
@@ -120,13 +120,6 @@ if (!Number.isInteger(coins) || coins <= 0) {
   });
 }
 
-// 5. Validate action
-if (!Object.hasOwn(actionCosts,   action)) {
-  return res.status(400).json({
-    success: false,
-    message: "Invalid action"
-  });
-}
 
 // 6. Atomically deduct coins from MongoDB
 const user = await User.findOneAndUpdate(

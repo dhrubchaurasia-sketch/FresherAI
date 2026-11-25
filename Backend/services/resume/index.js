@@ -18,8 +18,17 @@ app.get('/', (req, res) => {
 
 app.use("/",resumeRouter);
 
-app.listen(PORT, () => {
-  console.log(`Resume service is running on port ${PORT}`);
-  connectDB();
+const startServer = async () => {
+  try {
+    await connectDB();
 
-});
+    app.listen(PORT, () => {
+      console.log(`Resume service running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
